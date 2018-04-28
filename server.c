@@ -94,6 +94,7 @@ int main(int argc, char *argv[]) {
       printf("Did not receive any data\n");
       return 0;
     }
+    printf("Received: %s\n", msg);
     //extract data drom message received
     char *reply;
     reply = strtok(msg, ",");
@@ -115,12 +116,12 @@ int main(int argc, char *argv[]) {
 
     //Opening file for writing
     output = fopen(output_Name, "w+");
+    printf("Output file opened\n");
 
     //Recieveing the data from file line by line.
     //CHANGING FORMAT OF DATA
     int success = 0;
-    while(1)
-    {
+    while(1) {
       char line[1024];
       Maxlen = 1024;
 		RECEIVE1:
@@ -133,7 +134,7 @@ int main(int argc, char *argv[]) {
       /* An ack message. if this is not sent we time out*/
       char ack[1024];
       sprintf(ack, "%s", "ack");
-      Maxlen = strlen(msg)+1;
+      Maxlen = strlen(msg) + 1;
       msglen = lossy_sendto(loss_ratio, rseed, sock, ack, Maxlen, (struct sockaddr *)&cliaddr, clilen);
 			if (msglen < 0) {
 				goto RECEIVE1;
@@ -382,8 +383,7 @@ void pad_binary(unsigned long long n, bool isAmt)
   // This function is responsible for putting all the leading zeros in for binary numbers
   if(n < 10)
   {
-    if(isAmt == true)
-    {
+    if(isAmt == true) {
       fprintf(output, "0000000%lld ", n);
     }
     else
