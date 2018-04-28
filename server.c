@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   int rseed;
   int Maxlen= 1024;
   char *output_file_path;
-  char *output_Name;
+  char *output_file_target;
   char *error_msg = "error";
   int format;
 
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
     reply = strtok(NULL, ",");
     format = atoi(reply);
     reply = strtok(NULL, ",");
-    output_Name = reply;
+    output_file_target = reply;
 
     //This is the ack message for the stop and wait.
     char ack[1024];
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
 		}
 
     //Opening file for writing
-    output = fopen(output_Name, "w+");
+    output = fopen(output_file_target, "w");
     printf("Output file opened\n");
 
     //Recieveing the data from file line by line.
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
       //Recieveing data from file line by line.
       msglen = recvfrom(sock, line, Maxlen, 0, (struct sockaddr *)&cliaddr, &clilen);
       if(msglen < 0) {
-        printf("Error recieving data\n");
+        printf("Error receiving data\n");
       }
 
       /* An ack message. if this is not sent we time out*/
