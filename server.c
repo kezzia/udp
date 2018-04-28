@@ -128,12 +128,13 @@ int main(int argc, char *argv[]) {
       //Recieveing data from file line by line.
       msglen = recvfrom(sock, line, Maxlen, 0, (struct sockaddr *)&cliaddr, &clilen);
       if(msglen < 0) {
-        printf("Error receiveing data\n");
+        printf("Error recieving data\n");
       }
 
       /* An ack message. if this is not sent we time out*/
       char ack[1024];
       sprintf(ack, "%s", "ack");
+      printf("Sending ACK\n");
       Maxlen = strlen(msg) + 1;
       msglen = lossy_sendto(loss_ratio, rseed, sock, ack, Maxlen, (struct sockaddr *)&cliaddr, clilen);
 			if (msglen < 0) {
@@ -203,7 +204,7 @@ int main(int argc, char *argv[]) {
           }
         }
         else {
-          // Wrong format wrtie error message
+          // Wrong format
           // This closes the file and opens it again to wipe anything that was previously saved.
           fclose(output);
           //This is to send reply from Server
@@ -281,7 +282,7 @@ int main(int argc, char *argv[]) {
     {
       //This is to send reply from Server
       char msg[1024];
-      sprintf(msg, "%s", "sucess");
+      sprintf(msg, "%s", "success");
       Maxlen = strlen(msg)+1;
       //msglen = lossy_sendto(loss_ratio, rseed, sock, msg, Maxlen, (struct sockaddr *)&cliaddr, clilen);
 			msglen = sendto(sock, msg, Maxlen, 0, (struct sockaddr *)&cliaddr, clilen);
@@ -297,7 +298,6 @@ int main(int argc, char *argv[]) {
   }
 
 }
-
 
 
 int ascii_to_int(unsigned long long num)
